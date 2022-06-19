@@ -46,6 +46,11 @@ on:
             name: ansible
             playbooks:
               converge: ../default/converge.yml
+      molecule-verifier-test-directory:
+        required: false
+        description: "Molecule Verifier Test Directory"
+        type: string
+        default: "../default/tests"
     secrets:
       galaxy-token:
         required: true
@@ -120,6 +125,7 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_VERIFIER_TEST_DIRECTORY: ${{ inputs.molecule-verifier-test-directory }}
 
   release:
     name: Ansible Galaxy
