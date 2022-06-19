@@ -50,7 +50,7 @@ on:
         required: false
         description: "Molecule Verifier Test Directory"
         type: string
-        default: "../default/tests"
+        default: "molecule/default/tests"
     secrets:
       galaxy-token:
         required: true
