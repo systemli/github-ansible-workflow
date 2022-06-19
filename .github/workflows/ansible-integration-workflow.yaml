@@ -76,6 +76,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup yq
+        uses: mikefarah/yq@v4.25.2
+
       - name: Prepare Molecule Tests
         run: |
           # Creating required directories
@@ -86,6 +89,17 @@ jobs:
           echo "${{ inputs.molecule-config}}" > molecule/github/molecule.yml
           # Writing ansible role requirements
           echo "${{ inputs.role-dependencies }}" > molecule/requirements.yml
+
+          # Add prepare playbook if exists
+          if test -f "molecule/default/prepare.yml"; then
+            yq e --inplace '.provisioner.playbooks += {"prepare":"../default/prepare.yml"}' molecule/github/molecule.yml
+          fi
+
+          # Add verify playbook if exists
+          if test -f "molecule/default/verify.yml"; then
+            yq e --inplace '.provisioner.playbooks += {"verify":"../default/verify.yml"}' molecule/github/molecule.yml
+          fi
+
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
