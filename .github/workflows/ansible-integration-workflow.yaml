@@ -124,7 +124,7 @@ jobs:
         run: |
           set -x
           sudo apparmor_status
-          sudo systemctl disable apparmor
+          sudo systemctl stop apparmor
         if: inputs.disable-apparmor
 
       - name: Molecule Test
