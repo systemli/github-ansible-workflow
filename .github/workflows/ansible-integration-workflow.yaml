@@ -46,6 +46,11 @@ on:
             name: ansible
             playbooks:
               converge: ../default/converge.yml
+      disable-apparmor:
+        required: false
+        description: "Disable AppArmor for the Job Runner"
+        type: boolean
+        default: false
     secrets:
       galaxy-token:
         required: true
@@ -114,6 +119,13 @@ jobs:
       - name: Install Ansible Role Requirements
         run: ansible-galaxy install -r molecule/requirements.yml
         if: inputs.role-dependencies != ''
+
+      - name: Disable AppArmor
+        run: |
+          set -x
+          sudo apparmor_status
+          sudo systemctl disable apparmor
+        if: inputs.disable-apparmor
 
       - name: Molecule Test
         run: molecule test -s github
