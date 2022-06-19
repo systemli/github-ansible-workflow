@@ -9,7 +9,7 @@
 | python-dependencies | string | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Default pip dependencies for molecule |
 | role-dependencies | string | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Default role dependencies for ansible (empty)|
 | molecule-config | string | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Configuration for molecule |
-| disable-apparmor | boolean | false | Disable AppArmor for the Job Runner (needed for starting MariaDB) |
+| disable-apparmor-mysql | boolean | false | Disable AppArmor MySQL Profile for the Job Runner |
 
 ## Usage
 

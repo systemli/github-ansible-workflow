@@ -46,9 +46,9 @@ on:
             name: ansible
             playbooks:
               converge: ../default/converge.yml
-      disable-apparmor:
+      disable-apparmor-mysql:
         required: false
-        description: "Disable AppArmor for the Job Runner"
+        description: "Disable AppArmor MySQL Profile for the Job Runner"
         type: boolean
         default: false
     secrets:
@@ -120,12 +120,15 @@ jobs:
         run: ansible-galaxy install -r molecule/requirements.yml
         if: inputs.role-dependencies != ''
 
-      - name: Disable AppArmor
+      - name: Disable AppArmor (MySQL)
         run: |
           set -x
+          sudo apt-get install apparmor-profiles
           sudo apparmor_status
-          sudo systemctl stop apparmor
-        if: inputs.disable-apparmor
+          sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+          sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+          sudo apparmor_status
+        if: inputs.disable-apparmor-mysql
 
       - name: Molecule Test
         run: molecule test -s github
