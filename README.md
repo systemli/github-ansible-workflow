@@ -9,6 +9,7 @@
 | python-dependencies | string | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Default pip dependencies for molecule |
 | role-dependencies | string | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Default role dependencies for ansible (empty)|
 | molecule-config | string | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Configuration for molecule |
+| molecule-verifier-test-directory | string | ../default/tests | Molecule Verifier Test Directory |
 
 ## Usage
 
