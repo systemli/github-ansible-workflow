@@ -21,6 +21,7 @@ on:
         default: |
           molecule[docker]==3.6.1
           molecule-goss
+          jmespath
       role-dependencies:
         required: false
         description: "Default role dependencies for ansible (empty)"
