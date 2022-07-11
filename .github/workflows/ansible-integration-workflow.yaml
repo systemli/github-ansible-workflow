@@ -9,11 +9,6 @@ on:
         description: "List of distributions to test against the Role"
         type: string
         default: '[ "debian11", "debian10" ]'
-      default-branch:
-        required: false
-        description: "Default branch of the repository. Default: main"
-        type: string
-        default: "main"
       python-dependencies:
         required: false
         description: "Default pip dependencies for molecule"
@@ -52,10 +47,6 @@ on:
         description: "Disable AppArmor MySQL Profile for the Job Runner"
         type: boolean
         default: false
-    secrets:
-      galaxy-token:
-        required: true
-        description: "Token to upload the Role to Ansible Galaxy"
 
 jobs:
   lint:
@@ -148,14 +139,3 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.distro }}
-
-  release:
-    name: Ansible Galaxy
-    runs-on: ubuntu-20.04
-    needs: [test]
-    if: github.ref_name == inputs.default-branch || contains(github.ref, 'refs/tags/')
-    steps:
-      - name: Publish to Ansible Galaxy
-        uses: robertdebock/galaxy-action@1.2.0
-        with:
-          galaxy_api_key: ${{ secrets.galaxy-token }}
