@@ -1,5 +1,7 @@
 # Github Workflows for Ansible Roles
 
+[![Integration](https://github.com/systemli/github-ansible-workflow/actions/workflows/integration.yml/badge.svg)](https://github.com/systemli/github-ansible-workflow/actions/workflows/integration.yml)
+
 ## Continuous Integration (Molecule)
 
 ### Configuration

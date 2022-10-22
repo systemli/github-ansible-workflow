@@ -1,0 +1,14 @@
+name: Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  integration:
+    name: Integration
+    uses: ./.github/workflows/ansible-integration-workflow.yaml
+    with:
+      distros: '[ "debian11", "debian10", "ubuntu2204", "ubuntu2004" ]'
