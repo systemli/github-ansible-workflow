@@ -3,6 +3,15 @@ name: Ansible Galaxy
 
 on:
   workflow_call:
+    inputs:
+      git-branch:
+        type: string
+        required: false
+        default: "main"
+      path:
+        type: string
+        required: false
+        default: "./"
     secrets:
       galaxy-token:
         required: true
@@ -14,6 +23,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Publish to Ansible Galaxy
-        uses: robertdebock/galaxy-action@1.2.0
+        uses: robertdebock/galaxy-action@1.2.1
         with:
           galaxy_api_key: ${{ secrets.galaxy-token }}
+          git_branch: ${{ inputs.git-branch }}
+          path: ${{ input.path }}
