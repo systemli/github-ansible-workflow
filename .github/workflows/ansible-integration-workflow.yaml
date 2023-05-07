@@ -102,6 +102,7 @@ jobs:
 
       - name: Install Ansible Role Requirements
         run: ansible-galaxy install -r requirements.yml
+        continue-on-error: true
 
       - name: Disable AppArmor (MySQL)
         run: |
