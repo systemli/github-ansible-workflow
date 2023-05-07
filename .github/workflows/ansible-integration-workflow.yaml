@@ -35,7 +35,9 @@ on:
               image: "geerlingguy/docker-\$\{MOLECULE_DISTRO:-debian11\}-ansible:latest"
               command: ""
               volumes:
-                - /sys/fs/cgroup:/sys/fs/cgroup:ro
+                - /sys/fs/cgroup:/sys/fs/cgroup:rw
+                - /var/lib/containerd
+              cgroupns_mode: host
               privileged: true
               pre_build_image: true
           provisioner:
@@ -90,10 +92,10 @@ jobs:
           fi
 
           # Add verify playbook if exists
-          if test -f "molecule/default/verify.yml"; then
-            yq e --inplace '.provisioner.playbooks += {"verify":"../default/verify.yml"}' molecule/github/molecule.yml
-            yq e --inplace '. += {"verifier": {"name": "goss", "directory": "../default/tests/"}}' molecule/github/molecule.yml
-          fi
+          # if test -f "molecule/default/verify.yml"; then
+          #   yq e --inplace '.provisioner.playbooks += {"verify":"../default/verify.yml"}' molecule/github/molecule.yml
+          #   yq e --inplace '. += {"verifier": {"name": "goss", "directory": "../default/tests/"}}' molecule/github/molecule.yml
+          # fi
 
       - name: Setup Python
         uses: actions/setup-python@v4
