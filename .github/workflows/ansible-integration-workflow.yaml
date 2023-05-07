@@ -14,8 +14,9 @@ on:
         description: "Default pip dependencies for molecule"
         type: string
         default: |
-          molecule[docker]
-          molecule-goss
+          ansible-core
+          molecule==4.0.4
+          molecule-plugins[docker]
           jmespath
       role-dependencies:
         required: false
