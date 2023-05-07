@@ -17,11 +17,6 @@ on:
           molecule==5.0.1
           molecule-plugins[docker]
           jmespath
-      role-dependencies:
-        required: false
-        description: "Default role dependencies for ansible (empty)"
-        type: string
-        default: ""
       molecule-config:
         required: false
         description: "Configuration for molecule"
@@ -83,8 +78,6 @@ jobs:
           echo "${{ inputs.python-dependencies }}" > molecule/requirements.txt
           # Writing molecule config for docker
           echo "${{ inputs.molecule-config}}" > molecule/github/molecule.yml
-          # Writing ansible role requirements
-          echo "${{ inputs.role-dependencies }}" > molecule/requirements.yml
 
           # Add prepare playbook if exists
           if test -f "molecule/default/prepare.yml"; then
@@ -109,7 +102,6 @@ jobs:
 
       - name: Install Ansible Role Requirements
         run: ansible-galaxy install -r requirements.yml
-        if: inputs.role-dependencies != ''
 
       - name: Disable AppArmor (MySQL)
         run: |
@@ -131,7 +123,7 @@ jobs:
           echo "Print molecule/default/converge.yml"
           cat molecule/default/converge.yml
           if [ -f "molecule/default/prepare.yml" ]; then echo "Print molecule/default/prepare.yml" && cat molecule/default/prepare.yml; fi
-          if [ -f "molecule/default/verify.yml" ]; then echo "Print molecule/default/verify.yml" && cat molecule/default/verify.yml; fi
+          #if [ -f "molecule/default/verify.yml" ]; then echo "Print molecule/default/verify.yml" && cat molecule/default/verify.yml; fi
 
       - name: Molecule Test
         run: molecule test -s github
