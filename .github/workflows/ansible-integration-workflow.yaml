@@ -105,6 +105,9 @@ jobs:
           cache: "pip"
           cache-dependency-path: "molecule/requirements.txt"
 
+      - name: Install testing dependencies
+        run: pip3 install -r molecule/requirements.txt
+
       - name: Install Ansible Role Requirements
         run: ansible-galaxy install -r requirements.yml
         if: inputs.role-dependencies != ''
