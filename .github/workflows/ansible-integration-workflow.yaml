@@ -15,7 +15,7 @@ on:
         type: string
         default: |
           ansible-core
-          molecule==4.0.4
+          molecule==5.0.1
           molecule-plugins[docker]
           jmespath
       role-dependencies:
