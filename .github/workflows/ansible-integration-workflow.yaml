@@ -14,7 +14,6 @@ on:
         description: "Default pip dependencies for molecule"
         type: string
         default: |
-          ansible-core
           molecule==5.0.1
           molecule-plugins[docker]
           jmespath
@@ -72,9 +71,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup yq
-        uses: mikefarah/yq@v4.33.1
 
       - name: Prepare Molecule Tests
         run: |
