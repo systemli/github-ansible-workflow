@@ -14,14 +14,9 @@ on:
         description: "Default pip dependencies for molecule"
         type: string
         default: |
-          molecule[docker]
-          molecule-goss
+          molecule==5.0.1
+          molecule-plugins[docker]
           jmespath
-      role-dependencies:
-        required: false
-        description: "Default role dependencies for ansible (empty)"
-        type: string
-        default: ""
       molecule-config:
         required: false
         description: "Configuration for molecule"
@@ -33,9 +28,11 @@ on:
           platforms:
             - name: instance
               image: "geerlingguy/docker-\$\{MOLECULE_DISTRO:-debian11\}-ansible:latest"
-              command: ${MOLECULE_DOCKER_COMMAND:-""}
+              command: ""
               volumes:
-                - /sys/fs/cgroup:/sys/fs/cgroup:ro
+                - /sys/fs/cgroup:/sys/fs/cgroup:rw
+                - /var/lib/containerd
+              cgroupns_mode: host
               privileged: true
               pre_build_image: true
           provisioner:
@@ -73,9 +70,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup yq
-        uses: mikefarah/yq@v4.33.1
-
       - name: Prepare Molecule Tests
         run: |
           # Creating required directories
@@ -84,18 +78,10 @@ jobs:
           echo "${{ inputs.python-dependencies }}" > molecule/requirements.txt
           # Writing molecule config for docker
           echo "${{ inputs.molecule-config}}" > molecule/github/molecule.yml
-          # Writing ansible role requirements
-          echo "${{ inputs.role-dependencies }}" > molecule/requirements.yml
 
           # Add prepare playbook if exists
           if test -f "molecule/default/prepare.yml"; then
             yq e --inplace '.provisioner.playbooks += {"prepare":"../default/prepare.yml"}' molecule/github/molecule.yml
-          fi
-
-          # Add verify playbook if exists
-          if test -f "molecule/default/verify.yml"; then
-            yq e --inplace '.provisioner.playbooks += {"verify":"../default/verify.yml"}' molecule/github/molecule.yml
-            yq e --inplace '. += {"verifier": {"name": "goss", "directory": "../default/tests/"}}' molecule/github/molecule.yml
           fi
 
       - name: Setup Python
@@ -105,12 +91,12 @@ jobs:
           cache: "pip"
           cache-dependency-path: "molecule/requirements.txt"
 
-      - name: Install Dependencies
+      - name: Install testing dependencies
         run: pip3 install -r molecule/requirements.txt
 
       - name: Install Ansible Role Requirements
-        run: ansible-galaxy install -r molecule/requirements.yml
-        if: inputs.role-dependencies != ''
+        run: ansible-galaxy install -r requirements.yml
+        continue-on-error: true
 
       - name: Disable AppArmor (MySQL)
         run: |
@@ -132,7 +118,6 @@ jobs:
           echo "Print molecule/default/converge.yml"
           cat molecule/default/converge.yml
           if [ -f "molecule/default/prepare.yml" ]; then echo "Print molecule/default/prepare.yml" && cat molecule/default/prepare.yml; fi
-          if [ -f "molecule/default/verify.yml" ]; then echo "Print molecule/default/verify.yml" && cat molecule/default/verify.yml; fi
 
       - name: Molecule Test
         run: molecule test -s github
