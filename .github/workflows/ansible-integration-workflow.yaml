@@ -84,12 +84,6 @@ jobs:
             yq e --inplace '.provisioner.playbooks += {"prepare":"../default/prepare.yml"}' molecule/github/molecule.yml
           fi
 
-          # Add verify playbook if exists
-          # if test -f "molecule/default/verify.yml"; then
-          #   yq e --inplace '.provisioner.playbooks += {"verify":"../default/verify.yml"}' molecule/github/molecule.yml
-          #   yq e --inplace '. += {"verifier": {"name": "goss", "directory": "../default/tests/"}}' molecule/github/molecule.yml
-          # fi
-
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -124,7 +118,6 @@ jobs:
           echo "Print molecule/default/converge.yml"
           cat molecule/default/converge.yml
           if [ -f "molecule/default/prepare.yml" ]; then echo "Print molecule/default/prepare.yml" && cat molecule/default/prepare.yml; fi
-          #if [ -f "molecule/default/verify.yml" ]; then echo "Print molecule/default/verify.yml" && cat molecule/default/verify.yml; fi
 
       - name: Molecule Test
         run: molecule test -s github
