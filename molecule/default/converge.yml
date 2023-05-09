@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: Create directory
+      ansible.builtin.file:
+        path: "/etc/molecule"
+        state: "directory"
+        mode: "0755"
+
+    - name: Copy content to an example file
+      ansible.builtin.copy:
+        content: "This is a test"
+        dest: "/etc/molecule/test.txt"
+        mode: "0644"
