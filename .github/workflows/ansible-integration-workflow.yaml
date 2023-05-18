@@ -76,6 +76,11 @@ jobs:
           # Writing molecule config for docker
           echo "${{ inputs.molecule-config}}" > molecule/github/molecule.yml
 
+          # Copy test dependencies if they exist
+          if test -f "molecule/default/requirements.yml"; then
+            cp molecule/default/requirements.yml molecule/github/requirements.yml
+          fi
+
           # Add prepare playbook if exists
           if test -f "molecule/default/prepare.yml"; then
             yq e --inplace '.provisioner.playbooks += {"prepare":"../default/prepare.yml"}' molecule/github/molecule.yml
