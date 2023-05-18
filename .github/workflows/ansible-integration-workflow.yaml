@@ -53,6 +53,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install test dependencies
+        run: |
+          # Copy test dependencies if they exist
+          if test -f "molecule/default/requirements.yml"; then
+            ansible-galaxy install -r molecule/default/requirements.yml
+          fi
+
       - name: Ansible Lint
         uses: ansible-community/ansible-lint-action@v6
 
