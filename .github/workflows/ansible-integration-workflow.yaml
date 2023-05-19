@@ -56,6 +56,12 @@ jobs:
       - name: Install ansible-lint
         run: pip install ansible-lint
 
+      - name: Install Ansible Role Requirements
+        run: |
+          if test -f "requirements.yml"; then
+            ansible-galaxy install -r requirements.yml
+          fi
+
       - name: Ansible Lint
         run: ansible-lint .
 
