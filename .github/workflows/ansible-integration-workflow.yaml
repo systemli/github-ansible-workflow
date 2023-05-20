@@ -53,8 +53,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install ansible-lint
+        run: pip install ansible-lint
+
+      - name: Install Ansible Role Requirements
+        run: |
+          if test -f "requirements.yml"; then
+            ansible-galaxy install -r requirements.yml
+          fi
+
       - name: Ansible Lint
-        uses: ansible-community/ansible-lint-action@v6
+        run: ansible-lint .
 
   test:
     name: Molecule
@@ -76,6 +85,11 @@ jobs:
           # Writing molecule config for docker
           echo "${{ inputs.molecule-config}}" > molecule/github/molecule.yml
 
+          # Copy test dependencies if they exist
+          if test -f "molecule/default/requirements.yml"; then
+            cp molecule/default/requirements.yml molecule/github/requirements.yml
+          fi
+
           # Add prepare playbook if exists
           if test -f "molecule/default/prepare.yml"; then
             yq e --inplace '.provisioner.playbooks += {"prepare":"../default/prepare.yml"}' molecule/github/molecule.yml
@@ -92,8 +106,10 @@ jobs:
         run: pip3 install -r molecule/requirements.txt
 
       - name: Install Ansible Role Requirements
-        run: ansible-galaxy install -r requirements.yml
-        continue-on-error: true
+        run: |
+          if test -f "requirements.yml"; then
+            ansible-galaxy install -r requirements.yml
+          fi
 
       - name: Disable AppArmor (MySQL)
         run: |
