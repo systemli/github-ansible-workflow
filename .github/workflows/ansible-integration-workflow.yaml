@@ -53,8 +53,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install ansible-lint
-        run: pip install ansible-lint
+      - name: Install (testing) requirements
+        run: |
+          echo ansible-lint >> requirements.txt
+          pip install -r requirements.txt
 
       - name: Install Ansible Role Requirements
         run: |
