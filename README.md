@@ -8,7 +8,7 @@
 
 | Variable               | Type    | Default                                                             | Description                                        |
 | ---------------------- | ------- | ------------------------------------------------------------------- | -------------------------------------------------- |
-| distros                | string  | '[ "debian11", "debian10" ]'                                        | List of distributions to test against the Role     |
+| distros                | string  | '[ "debian12", "debian11", "debian10" ]'                                        | List of distributions to test against the Role     |
 | python-dependencies    | string  | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Default pip dependencies for molecule              |
 | molecule-config        | string  | [see workflow](.github/workflows/ansible-integration-workflow.yaml) | Configuration for molecule                         |
 | disable-apparmor-mysql | boolean |  false                                                              |  Disable AppArmor MySQL Profile for the Job Runner |
@@ -32,7 +32,7 @@ jobs:
     name: Integration
     uses: systemli/github-ansible-workflow/.github/workflows/ansible-integration-workflow.yaml@v1.0.0
     with:
-      distros: '[ "debian11", "debian10", "ubuntu2204", "ubuntu2004", "ubuntu1804" ]'
+      distros: '[ "debian12", "debian11", "debian10", "ubuntu2204", "ubuntu2004", "ubuntu1804" ]'
 ```
 
 ## Ansible Galaxy
