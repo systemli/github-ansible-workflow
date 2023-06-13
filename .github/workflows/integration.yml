@@ -11,4 +11,4 @@ jobs:
     name: Integration
     uses: ./.github/workflows/ansible-integration-workflow.yaml
     with:
-      distros: '[ "debian12", "debian11", "debian10", "ubuntu2204", "ubuntu2004" ]'
+      distros: '[ "debian12", "debian11", "ubuntu2204", "ubuntu2004" ]'
