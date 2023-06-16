@@ -8,7 +8,7 @@ on:
         required: false
         description: "List of distributions to test against the Role"
         type: string
-        default: '[ "debian11", "debian10" ]'
+        default: '[ "debian12", "debian11" ]'
       python-dependencies:
         required: false
         description: "Default pip dependencies for molecule"
