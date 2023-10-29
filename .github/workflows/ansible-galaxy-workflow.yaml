@@ -20,11 +20,15 @@ on:
 jobs:
   publish:
     name: Publish Role
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - name: Publish to Ansible Galaxy
-        uses: robertdebock/galaxy-action@1.2.1
+      - name: 'Checkout git repo'
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: 'Release on galaxy'
+        uses: ansible-actions/ansible-galaxy-action@v1.1.1
         with:
           galaxy_api_key: ${{ secrets.galaxy-token }}
-          git_branch: ${{ inputs.git-branch }}
-          path: ${{ inputs.path }}
