@@ -25,10 +25,9 @@ jobs:
       - name: 'Checkout git repo'
         uses: actions/checkout@v4
         with:
-          submodules: true
-          fetch-depth: 0
+          fetch-tags: true
 
       - name: 'Release on galaxy'
-        uses: ansible-actions/ansible-galaxy-action@v1.1.1
-        with:
-          galaxy_api_key: ${{ secrets.galaxy-token }}
+        run: >-
+          ansible-galaxy role import --api-key ${{ secrets.galaxy-token }}
+          $(echo ${{ github.repository }} | cut -d/ -f1) $(echo ${{ github.repository }} | cut -d/ -f2)
