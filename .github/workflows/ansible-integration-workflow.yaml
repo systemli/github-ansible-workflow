@@ -14,7 +14,7 @@ on:
         description: "Default pip dependencies for molecule"
         type: string
         default: |
-          molecule==5.0.1
+          molecule==6.0.2
           molecule-plugins[docker]
           jmespath
       molecule-config:
