@@ -38,6 +38,8 @@ on:
               pre_build_image: true
           provisioner:
             name: ansible
+            ansible_args:
+              - --diff
             playbooks:
               converge: ../default/converge.yml
       disable-apparmor-mysql:
