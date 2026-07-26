@@ -28,7 +28,7 @@ on:
             name: docker
           platforms:
             - name: instance
-              image: "geerlingguy/docker-\$\{MOLECULE_DISTRO:-debian12\}-ansible:latest"
+              image: "geerlingguy/docker-\$\{MOLECULE_DISTRO:-debian13\}-ansible:latest"
               volumes:
                 - /sys/fs/cgroup:/sys/fs/cgroup:rw
                 - /var/lib/containerd
