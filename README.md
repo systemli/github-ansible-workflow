@@ -30,9 +30,9 @@ on:
 jobs:
   integration:
     name: Integration
-    uses: systemli/github-ansible-workflow/.github/workflows/ansible-integration-workflow.yaml@v1.0.0
+    uses: systemli/github-ansible-workflow/.github/workflows/ansible-integration-workflow.yaml@v1.6.1
     with:
-      distros: '[ "debian13", "debian12", "ubuntu2404", "ubuntu22204" ]'
+      distros: '[ "debian13", "debian12", "ubuntu2404", "ubuntu2204" ]'
 ```
 
 ## Ansible Galaxy
