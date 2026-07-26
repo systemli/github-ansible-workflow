@@ -16,8 +16,8 @@ on:
         default: |
           ansible-core==2.19.3
           molecule==25.9.0
-          molecule-plugins[docker]
-          jmespath
+          molecule-plugins[docker]==26.7.15
+          jmespath==1.0.1
       molecule-config:
         required: false
         description: "Configuration for molecule"
